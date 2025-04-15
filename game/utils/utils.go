@@ -12,6 +12,7 @@ import (
 )
 
 var Player = mustLoadImage(settings.PLAYER_IMG)
+var MeteorSprites = mustLoadImages("meteors/*.png")
 
 func mustLoadImage(name string) *ebiten.Image {
 	_, currentFile, _, _ := runtime.Caller(0)
@@ -30,4 +31,39 @@ func mustLoadImage(name string) *ebiten.Image {
 	}
 
 	return ebiten.NewImageFromImage(img)
+}
+
+func mustLoadImages(pattern string) []*ebiten.Image {
+	fullPattern := filepath.Join(baseAssetsPath(), pattern)
+	files, err := filepath.Glob(fullPattern)
+	if err != nil {
+		panic(err)
+	}
+	if len(files) == 0 {
+		panic("no files matched pattern: " + pattern)
+	}
+
+	var images []*ebiten.Image
+	for _, path := range files {
+		file, err := os.Open(path)
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+
+		img, _, err := image.Decode(file)
+		if err != nil {
+			panic(err)
+		}
+
+		images = append(images, ebiten.NewImageFromImage(img))
+	}
+
+	return images
+}
+
+
+func baseAssetsPath() string {
+	_, currentFile, _, _ := runtime.Caller(0)
+	return filepath.Join(filepath.Dir(currentFile), "..", "..", settings.ASSETS)
 }

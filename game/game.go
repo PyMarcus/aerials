@@ -10,6 +10,7 @@ import (
 
 type Game struct {
 	Player *models.Player
+	Meteors          []*models.Meteor
 }
 
 func (g *Game) Update() error {

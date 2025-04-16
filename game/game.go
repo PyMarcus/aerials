@@ -2,7 +2,6 @@ package game
 
 import (
 	"math"
-
 	"github.com/PyMarcus/aerials/game/controllers"
 	"github.com/PyMarcus/aerials/game/models"
 	"github.com/PyMarcus/aerials/game/settings"
@@ -22,12 +21,12 @@ func (g *Game) Update() error {
 
 	if g.MeteorsSpawnTimer.Ready(){
 		g.MeteorsSpawnTimer.Reset()
-
 		meteor := controllers.NewMeteor()
 		g.Meteors = append(g.Meteors, meteor)
 	}
 
 	for _, m := range g.Meteors {
+		controllers.CreateMovement(m)
 		m.Update()
 	}
 	return nil

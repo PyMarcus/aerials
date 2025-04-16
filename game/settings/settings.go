@@ -10,3 +10,4 @@ const PLAYER_IMG string = "player.png"
 const ASSETS string = "assets"
 
 const SPEED float64 = 300.0
+const METEOR_SPEED float64 = 0.15

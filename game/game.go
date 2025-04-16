@@ -3,6 +3,7 @@ package game
 import (
 	"math"
 
+	"github.com/PyMarcus/aerials/game/controllers"
 	"github.com/PyMarcus/aerials/game/models"
 	"github.com/PyMarcus/aerials/game/settings"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -11,15 +12,32 @@ import (
 type Game struct {
 	Player *models.Player
 	Meteors          []*models.Meteor
+	MeteorsSpawnTimer *models.Timer
 }
 
 func (g *Game) Update() error {
 	g.keyBoardListenerController()
+	g.Player.Update()
+	g.MeteorsSpawnTimer.Update()
+
+	if g.MeteorsSpawnTimer.Ready(){
+		g.MeteorsSpawnTimer.Reset()
+
+		meteor := controllers.NewMeteor()
+		g.Meteors = append(g.Meteors, meteor)
+	}
+
+	for _, m := range g.Meteors {
+		m.Update()
+	}
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	g.Player.Draw(screen)
+	for _, m := range g.Meteors {
+		m.Draw(screen)
+	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {

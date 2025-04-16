@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/PyMarcus/aerials/game"
 	"github.com/PyMarcus/aerials/game/controllers"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -10,6 +12,7 @@ import (
 func main() {
 	g := &game.Game{
 		Player: controllers.NewPlayer(),
+		MeteorsSpawnTimer: controllers.NewTimer(time.Second),
 	}
 
 	if err := ebiten.RunGame(g); err != nil {

@@ -2,9 +2,11 @@ package game
 
 import (
 	"math"
+
 	"github.com/PyMarcus/aerials/game/controllers"
 	"github.com/PyMarcus/aerials/game/models"
 	"github.com/PyMarcus/aerials/game/settings"
+	"github.com/PyMarcus/aerials/game/utils"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -33,6 +35,18 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	// background
+	bg := &ebiten.DrawImageOptions{}
+	X, Y := screen.Size()
+	sw, sh := utils.Map.Size()
+
+	bg.GeoM.Scale(
+		float64(X)/float64(sw),
+		float64(Y)/float64(sh),
+	)
+	screen.DrawImage(utils.Map, bg)
+
+	// player
 	g.Player.Draw(screen)
 	for _, m := range g.Meteors {
 		m.Draw(screen)

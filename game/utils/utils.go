@@ -14,6 +14,8 @@ import (
 var Player = mustLoadImage(settings.PLAYER_IMG)
 var MeteorSprites = mustLoadImages("meteors/*.png")
 
+var Map = mustLoadImage("purple.png")
+
 func mustLoadImage(name string) *ebiten.Image {
 	_, currentFile, _, _ := runtime.Caller(0)
 	basePath := filepath.Join(filepath.Dir(currentFile), "..", "..", settings.ASSETS)
